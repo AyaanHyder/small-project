@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/AyaanHyder/small-project.git'
+                git branch: 'main', url: 'https://github.com/AyaanHyder/small-project.git'
             }
         }
         stage('Build Backend') {
