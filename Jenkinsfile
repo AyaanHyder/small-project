@@ -16,7 +16,7 @@ pipeline {
                 dir('backend') {
                     script {
                         // Ensure Node.js is available
-                        def nodeHome = tool name: 'NodeJS', type: 'NodeJSInstallation'
+                        def nodeHome = tool name: 'NodeJS', type: 'NodeJS installations'
                         env.PATH = "${nodeHome}/bin:${env.PATH}"
                         // Install dependencies for the backend
                         bat 'npm install'
