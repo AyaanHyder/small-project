@@ -1,8 +1,13 @@
 pipeline {
     agent any
+    tools {
+        // Define the name of your NodeJS installation as configured in Jenkins
+        nodejs 'NodeJS'
+    }
     stages {
         stage('Checkout') {
             steps {
+                // Clone the repository from GitHub
                 git branch: 'main', url: 'https://github.com/AyaanHyder/small-project.git'
             }
         }
@@ -10,9 +15,11 @@ pipeline {
             steps {
                 dir('backend') {
                     script {
+                        // Ensure Node.js is available
                         def nodeHome = tool name: 'NodeJS', type: 'NodeJSInstallation'
                         env.PATH = "${nodeHome}/bin:${env.PATH}"
-                        sh 'npm install'
+                        // Install dependencies for the backend
+                        bat 'npm install'
                     }
                 }
             }
@@ -21,10 +28,12 @@ pipeline {
             steps {
                 dir('frontend') {
                     script {
+                        // Ensure Node.js is available
                         def nodeHome = tool name: 'NodeJS', type: 'NodeJSInstallation'
                         env.PATH = "${nodeHome}/bin:${env.PATH}"
-                        sh 'npm install'
-                        sh 'npm run build'
+                        // Install dependencies and build the frontend
+                        bat 'npm install'
+                        bat 'npm run build'
                     }
                 }
             }
@@ -32,21 +41,30 @@ pipeline {
         stage('Test Backend') {
             steps {
                 dir('backend') {
-                    sh 'npm test'
+                    // Run backend tests
+                    bat 'npm test'
                 }
             }
         }
         stage('Test Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm test'
+                    // Run frontend tests
+                    bat 'npm test'
                 }
             }
         }
         stage('Deploy') {
             steps {
+                // Placeholder for deployment steps
                 echo 'Deploying to the server...'
             }
+        }
+    }
+    post {
+        always {
+            // Cleanup steps or notifications after pipeline execution
+            echo 'Cleaning up...'
         }
     }
 }
